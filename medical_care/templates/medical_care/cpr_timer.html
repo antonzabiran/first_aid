@@ -1,0 +1,156 @@
+{% extends "medical_care/base.html" %}
+
+{% block extra_css %}
+<style>
+    #timer-display {
+        font-family: 'Courier New', monospace;
+        font-weight: bold;
+    }
+    .phase-indicator {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    .compression-phase {
+        color: #dc3545;
+    }
+    .ventilation-phase {
+        color: #0d6efd;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-lg">
+        <div class="card-header bg-danger text-white">
+            <h2 class="text-center mb-0">
+                <i class="bi bi-heart-pulse me-2"></i> Таймер СЛР
+            </h2>
+        </div>
+        <div class="card-body text-center">
+            <div id="phase-indicator" class="phase-indicator mb-3 compression-phase">
+                ФАЗА: НАДАВЛИВАНИЯ
+            </div>
+            <div id="timer-display" class="display-1 my-4">30:00</div>
+            <div id="cycle-counter" class="mb-3">Цикл: 1/5</div>
+            
+            <div class="progress mb-4">
+                <div id="progress-bar" class="progress-bar bg-danger" style="width: 100%"></div>
+            </div>
+            
+            <div class="d-grid gap-2 col-md-6 mx-auto">
+                <button id="start-btn" class="btn btn-lg btn-primary">
+                    <i class="bi bi-play-fill"></i> Старт
+                </button>
+                <button id="reset-btn" class="btn btn-lg btn-outline-secondary" disabled>
+                    <i class="bi bi-arrow-counterclockwise"></i> Сброс
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card shadow mt-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Инструкция по СЛР</h5>
+        </div>
+        <div class="card-body">
+            <ol class="list-group list-group-numbered">
+                <li class="list-group-item">
+                    <strong>Положение рук:</strong> Середина груди между сосками
+                </li>
+                <li class="list-group-item">
+                    <strong>Глубина нажатий:</strong> 5-6 см для взрослых
+                </li>
+                <li class="list-group-item">
+                    <strong>Частота:</strong> 100-120 нажатий в минуту
+                </li>
+                <li class="list-group-item">
+                    <strong>Соотношение:</strong> 30 нажатий → 2 вдоха
+                </li>
+                <li class="list-group-item">
+                    <strong>Продолжительность вдоха:</strong> 1 секунда каждый
+                </li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const timerDisplay = document.getElementById('timer-display');
+        const startBtn = document.getElementById('start-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const phaseIndicator = document.getElementById('phase-indicator');
+        const cycleCounter = document.getElementById('cycle-counter');
+        
+        let timer;
+        let seconds = 30;
+        let isCompressionPhase = true;
+        let cycle = 1;
+        const totalCycles = 5;
+        
+        startBtn.addEventListener('click', startTimer);
+        resetBtn.addEventListener('click', resetTimer);
+        
+        function startTimer() {
+            startBtn.disabled = true;
+            resetBtn.disabled = false;
+            
+            timer = setInterval(() => {
+                seconds--;
+                
+                // Обновляем отображение таймера
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                timerDisplay.textContent = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+                
+                // Обновляем прогресс-бар
+                const progress = (seconds / 30) * 100;
+                progressBar.style.width = `${progress}%`;
+                
+                // Переключаем фазы
+                if (seconds <= 0) {
+                    isCompressionPhase = !isCompressionPhase;
+                    
+                    if (isCompressionPhase) {
+                        cycle++;
+                        if (cycle > totalCycles) {
+                            clearInterval(timer);
+                            timerDisplay.textContent = "00:00";
+                            phaseIndicator.textContent = "ЗАВЕРШЕНО";
+                            phaseIndicator.className = "phase-indicator mb-3 text-success";
+                            return;
+                        }
+                        seconds = 30;
+                        phaseIndicator.textContent = "ФАЗА: НАДАВЛИВАНИЯ";
+                        phaseIndicator.className = "phase-indicator mb-3 compression-phase";
+                    } else {
+                        seconds = 2;
+                        phaseIndicator.textContent = "ФАЗА: ВДОХИ";
+                        phaseIndicator.className = "phase-indicator mb-3 ventilation-phase";
+                    }
+                    
+                    cycleCounter.textContent = `Цикл: ${cycle}/${totalCycles}`;
+                }
+            }, 1000);
+        }
+        
+        function resetTimer() {
+            clearInterval(timer);
+            seconds = 30;
+            isCompressionPhase = true;
+            cycle = 1;
+            
+            timerDisplay.textContent = "30:00";
+            progressBar.style.width = "100%";
+            phaseIndicator.textContent = "ФАЗА: НАДАВЛИВАНИЯ";
+            phaseIndicator.className = "phase-indicator mb-3 compression-phase";
+            cycleCounter.textContent = `Цикл: 1/${totalCycles}`;
+            
+            startBtn.disabled = false;
+            resetBtn.disabled = true;
+        }
+    });
+</script>
+{% endblock %}

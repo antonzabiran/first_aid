@@ -1,0 +1,48 @@
+{% extends "medical_care/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">{{ step.emergency.title }} - Шаг {{ step.order }}</h4>
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{{ step.question }}</h5>
+            
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                <div class="d-grid gap-2">
+                    {% if step.question_type == 'binary' %}
+                        <button type="submit" name="answer" value="yes" class="btn btn-success btn-lg">
+                            Да
+                        </button>
+                        <button type="submit" name="answer" value="no" class="btn btn-danger btn-lg">
+                            Нет
+                        </button>
+                    {% else %}
+                        {% for choice in step.choices.all %}
+                            <button type="submit" name="choice" value="{{ choice.id }}" class="btn btn-outline-primary btn-lg">
+                                {{ choice.text }}
+                            </button>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </form>
+            
+            {% if step.action %}
+            <div class="mt-4 alert alert-info">
+                <h5>Действие:</h5>
+                {{ step.action|linebreaks }}
+            </div>
+            {% endif %}
+            
+            <div class="progress mt-4">
+                <div class="progress-bar bg-success" role="progressbar" style="width: {{ progress }}%" 
+                     aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">
+                    {{ progress|floatformat:0 }}%
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

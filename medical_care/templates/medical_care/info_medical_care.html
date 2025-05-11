@@ -1,0 +1,43 @@
+{% extends "medical_care/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">{{ emergency.title }}</h2>
+        </div>
+        <div class="card-body">
+            <div class="protocol-content">
+                {{ emergency.description|linebreaks }}
+            </div>
+            
+            {% if emergency.protocol %}
+            <div class="mt-4">
+                <h4>Протокол действий:</h4>
+                <div class="protocol-steps">
+                    {{ emergency.protocol|linebreaks }}
+                </div>
+            </div>
+            {% endif %}
+            
+            <div class="tags mt-4">
+                <strong>Теги:</strong>
+                {% for tag in emergency.tags.all %}
+                    <a href="{% url 'medical_care:tagged' tag.slug %}" class="badge bg-secondary text-decoration-none me-1">
+                        {{ tag.name }}
+                    </a>
+                {% endfor %}
+            </div>
+            
+            <div class="mt-4 d-flex gap-2">
+                <a href="{% url 'medical_care:patient_assessment' %}" class="btn btn-primary">
+                    Начать оценку состояния
+                </a>
+                <a href="{% url 'medical_care:index' %}" class="btn btn-outline-secondary">
+                    ← Назад к списку
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

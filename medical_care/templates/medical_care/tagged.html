@@ -1,0 +1,33 @@
+{% extends "medical_care/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">Записи с тегом "{{ tag.name }}"</h2>
+        </div>
+        <div class="card-body">
+            {% if posts %}
+                <div class="list-group">
+                    {% for post in posts %}
+                        <a href="{{ post.get_absolute_url }}" class="list-group-item list-group-item-action">
+                            <h5 class="mb-1">{{ post.title }}</h5>
+                            <p class="mb-1 text-muted">{{ post.description|truncatewords:20 }}</p>
+                        </a>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="alert alert-info">
+                    Нет записей с этим тегом.
+                </div>
+            {% endif %}
+            
+            <div class="mt-4">
+                <a href="{% url 'medical_care:index' %}" class="btn btn-outline-secondary">
+                    ← Назад к списку
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
