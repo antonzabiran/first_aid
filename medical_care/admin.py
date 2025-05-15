@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import EmergencyCondition, AssessmentStep, AssessmentChoice, CPRTimer, PatientStatus, EmergencyProtocol, CyrillicTag
+from .models import EmergencyCondition, AssessmentStep, AssessmentChoice, CPRTimer, PatientStatus, EmergencyProtocol, CyrillicTag, EmergencyMedia
 
 class AssessmentChoiceInline(admin.TabularInline):
     model = AssessmentChoice
@@ -11,8 +11,15 @@ class AssessmentStepInline(admin.TabularInline):
     extra = 1
     show_change_link = True
 
+class EmergencyMediaInline(admin.TabularInline):
+    model = EmergencyMedia
+    extra = 1
+    fields = ('image', 'description', 'order')
+    ordering = ('order',)
+
 @admin.register(EmergencyCondition)
 class EmergencyConditionAdmin(admin.ModelAdmin):
+    inlines = [EmergencyMediaInline]
     list_display = ('title', 'order', 'is_active')
     list_editable = ('order', 'is_active')
     inlines = [AssessmentStepInline]

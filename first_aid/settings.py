@@ -53,7 +53,7 @@ DATABASES = {
 }
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'medical_care/static')]
 
 LANGUAGE_CODE = 'ru-ru'
 TIME_ZONE = 'UTC'
@@ -64,7 +64,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_URL = '/admin/login/'
 LOGOUT_REDIRECT_URL = '/'
 
-# Настройки taggit
+
 TAGGIT_CASE_INSENSITIVE = True
 
 # Настройки статических файлов
@@ -73,18 +73,18 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-# Настройки медиа (если будут использоваться загрузки)
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Internationalization
+
 LANGUAGE_CODE = 'ru-ru'
 TIME_ZONE = 'Europe/Moscow'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-# Security (для production измените!)
+
 if DEBUG:
     SECURE_SSL_REDIRECT = False
     SESSION_COOKIE_SECURE = False
