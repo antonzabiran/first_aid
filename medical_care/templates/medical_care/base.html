@@ -5,14 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Медицинский справочник первой помощи{% endblock %}</title>
-    
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.0/font/bootstrap-icons.css">
-    
-    <!-- Кастомные стили -->
     <style>
         :root {
             --sidebar-width: 280px;
@@ -83,7 +77,6 @@
     {% block extra_css %}{% endblock %}
 </head>
 <body>
-    <!-- Боковая панель -->
     <aside class="sidebar">
         <div class="d-flex flex-column h-100">
             <div class="sidebar-header p-4">
@@ -131,38 +124,20 @@
                     {% endfor %}
                 </div>
             </div>
+
+            <div class="emergency-call p-3">
+                <a href="{% url 'medical_care:call_ambulance' %}" class="btn btn-danger w-100">
+                    <i class="bi bi-ambulance"></i> Вызвать скорую
+                </a>
+            </div>
         </div>
     </aside>
 
-    <!-- Основное содержимое -->
     <main class="main-content">
-        {% block content %}
-        <!-- Сюда будет подставляться содержимое дочерних шаблонов -->
-        {% endblock %}
+        {% block content %}{% endblock %}
     </main>
 
-    <!-- Bootstrap JS и зависимости -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Кастомные скрипты -->
-    <script>
-        // Активация всплывающих подсказок
-        document.addEventListener('DOMContentLoaded', function() {
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl)
-            });
-            
-            // Активация активных ссылок
-            document.querySelectorAll('.nav-link').forEach(link => {
-                if(link.href === window.location.href) {
-                    link.classList.add('active');
-                    link.setAttribute('aria-current', 'page');
-                }
-            });
-        });
-    </script>
-    
     {% block extra_js %}{% endblock %}
 </body>
 </html>

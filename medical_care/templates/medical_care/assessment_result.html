@@ -8,28 +8,42 @@
         </div>
         <div class="card-body">
             {% if status %}
-                <div class="status mb-4">
-                    <h4>Статус пациента:</h4>
-                    <ul class="list-group">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Сознание
-                            <span class="badge bg-{% if status.consciousness %}success{% else %}danger{% endif %} rounded-pill">
-                                {% if status.consciousness %}Есть{% else %}Нет{% endif %}
-                            </span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Дыхание
-                            <span class="badge bg-{% if status.breathing %}success{% else %}danger{% endif %} rounded-pill">
-                                {% if status.breathing %}Есть{% else %}Нет{% endif %}
-                            </span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            Сердцебиение
-                            <span class="badge bg-{% if status.heartbeat %}success{% else %}danger{% endif %} rounded-pill">
-                                {% if status.heartbeat %}Есть{% else %}Нет{% endif %}
-                            </span>
-                        </li>
-                    </ul>
+                <div class="status-card mb-4">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 border-{% if status.consciousness %}success{% else %}danger{% endif %}">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-person-check display-4"></i>
+                                    <h5>Сознание</h5>
+                                    <span class="badge bg-{% if status.consciousness %}success{% else %}danger{% endif %}">
+                                        {% if status.consciousness %}Есть{% else %}Нет{% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 border-{% if status.breathing %}success{% else %}danger{% endif %}">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-lungs display-4"></i>
+                                    <h5>Дыхание</h5>
+                                    <span class="badge bg-{% if status.breathing %}success{% else %}danger{% endif %}">
+                                        {% if status.breathing %}Есть{% else %}Нет{% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card h-100 border-{% if status.heartbeat %}success{% else %}danger{% endif %}">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-heart-pulse display-4"></i>
+                                    <h5>Сердцебиение</h5>
+                                    <span class="badge bg-{% if status.heartbeat %}success{% else %}danger{% endif %}">
+                                        {% if status.heartbeat %}Есть{% else %}Нет{% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
                 {% if not status.breathing or not status.heartbeat %}
@@ -43,7 +57,6 @@
                                 <li class="mb-2"><strong>Частота:</strong> 100-120 нажатий в минуту</li>
                                 <li class="mb-2"><strong>Соотношение:</strong> 30 нажатий → 2 вдоха</li>
                             </ol>
-                            <p class="text-muted"><small>Если не уверены в дыхании — делайте только нажатия!</small></p>
                             <div class="text-center mt-3">
                                 <a href="{% url 'medical_care:cpr_timer' %}" class="btn btn-danger btn-lg">
                                     <i class="bi bi-heart-pulse"></i> Запустить таймер СЛР (30:2)

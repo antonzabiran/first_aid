@@ -12,4 +12,5 @@ urlpatterns = [
     path('assessment/result/', views.assessment_result, name='assessment_result'),
     path('cpr-timer/', views.cpr_timer_view, name='cpr_timer'),
     path('<slug:emergency_slug>/', views.get_info_medical_care, name='info'),
+    path('call-ambulance/', views.call_ambulance, name='call_ambulance'),
 ]

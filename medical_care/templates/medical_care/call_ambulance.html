@@ -1,0 +1,31 @@
+{% extends "medical_care/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-header bg-danger text-white">
+            <h2 class="mb-0"><i class="bi bi-ambulance"></i> Вызов скорой помощи</h2>
+        </div>
+        <div class="card-body">
+            <div class="alert alert-danger">
+                <h4 class="alert-heading">Внимание! Требуется экстренная помощь</h4>
+                <p>Позвоните по номеру <strong>103</strong> или <strong>112</strong> и сообщите:</p>
+                <ul>
+                    <li>Ваше местоположение</li>
+                    <li>Характер экстренной ситуации</li>
+                    <li>Состояние пострадавшего</li>
+                </ul>
+            </div>
+            
+            <div class="d-grid gap-2 col-md-6 mx-auto">
+                <a href="tel:103" class="btn btn-danger btn-lg">
+                    <i class="bi bi-telephone"></i> Позвонить 103
+                </a>
+                <a href="{% url 'medical_care:index' %}" class="btn btn-outline-secondary">
+                    На главную
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

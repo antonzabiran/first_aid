@@ -109,3 +109,6 @@ def cpr_timer_view(request):
         'all_tags': Tag.objects.all(),
     })
 
+def call_ambulance(request):
+    return render(request, 'medical_care/call_ambulance.html')
+
