@@ -121,3 +121,22 @@ class CPRTimer(models.Model):
     
     def time_elapsed(self):
         return (timezone.now() - self.start_time).total_seconds()
+
+
+class EmergencyMedia(models.Model):
+    emergency = models.ForeignKey(
+        'EmergencyCondition', 
+        related_name='media', 
+        on_delete=models.CASCADE
+    )
+    image = models.ImageField(upload_to='protocols/')
+    description = models.TextField()
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = 'Медиа-материал'
+        verbose_name_plural = 'Медиа-материалы'
+
+    def __str__(self):
+        return f"Медиа {self.order} для {self.emergency.title}"

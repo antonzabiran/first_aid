@@ -1,0 +1,25 @@
+{% extends "medical_care/base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow-lg border-danger">
+        <div class="card-header bg-danger text-white">
+            <h3><i class="bi bi-exclamation-triangle"></i> Приём Геймлиха</h3>
+        </div>
+        <div class="card-body">
+            <ol class="list-group list-group-numbered">
+                <li class="list-group-item">Встаньте сзади пострадавшего</li>
+                <li class="list-group-item">Обхватите руками его талию</li>
+                <li class="list-group-item">Сожмите кулак и поместите над пупком</li>
+                <li class="list-group-item">Резко надавите вверх 5 раз</li>
+            </ol>
+            
+            <div class="mt-4">
+                <a href="tel:103" class="btn btn-danger btn-lg">
+                    <i class="bi bi-telephone"></i> Вызвать скорую
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

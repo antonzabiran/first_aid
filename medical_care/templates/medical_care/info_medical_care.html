@@ -1,43 +1,61 @@
 {% extends "medical_care/base.html" %}
+{% load static %}
 
 {% block content %}
 <div class="container mt-4">
-    <div class="card shadow">
-        <div class="card-header bg-primary text-white">
-            <h2 class="mb-0">{{ emergency.title }}</h2>
-        </div>
-        <div class="card-body">
-            <div class="protocol-content">
+    <div class="row">
+        <!-- Основной текст -->
+        <div class="col-md-8">
+            <h2>{{ emergency.title }}</h2>
+            
+            <div class="mt-3">
+                <h4>Признаки:</h4>
                 {{ emergency.description|linebreaks }}
             </div>
             
             {% if emergency.protocol %}
-            <div class="mt-4">
+            <div class="mt-3">
                 <h4>Протокол действий:</h4>
-                <div class="protocol-steps">
-                    {{ emergency.protocol|linebreaks }}
-                </div>
+                {{ emergency.protocol|linebreaks }}
             </div>
             {% endif %}
-            
-            <div class="tags mt-4">
-                <strong>Теги:</strong>
-                {% for tag in emergency.tags.all %}
-                    <a href="{% url 'medical_care:tagged' tag.slug %}" class="badge bg-secondary text-decoration-none me-1">
-                        {{ tag.name }}
-                    </a>
-                {% endfor %}
-            </div>
-            
-            <div class="mt-4 d-flex gap-2">
-                <a href="{% url 'medical_care:patient_assessment' %}" class="btn btn-primary">
-                    Начать оценку состояния
-                </a>
-                <a href="{% url 'medical_care:index' %}" class="btn btn-outline-secondary">
-                    ← Назад к списку
-                </a>
+        </div>
+        
+        <!-- Блок с визуальными инструкциями (только для клинической смерти) -->
+        {% if emergency.slug == 'clinical-death' %}
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-3">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">Техника СЛР</h5>
+                </div>
+                <div class="card-body">
+                    <!-- GIF-анимация -->
+                    <img src="http://127.0.0.1:8000/static/medical_care/images/cpr.gif" 
+                        class="img-fluid mb-3 border rounded"
+                        alt="Техника непрямого массажа сердца">
+                    
+                    <!-- Пошаговая инструкция -->
+                    <ol class="small">
+                        <li class="mb-2">Положите основание ладони на центр груди</li>
+                        <li class="mb-2">Вторую руку сверху, пальцы в замок</li>
+                        <li class="mb-2">Глубина нажатий 5-6 см</li>
+                        <li class="mb-2">Частота 100-120 нажатий в минуту</li>
+                    </ol>
+                </div>
             </div>
         </div>
+        {% endif %}
+    </div>
+    
+    <!-- Кнопки действий -->
+    <div class="mt-4">
+        <a href="{% url 'medical_care:patient_assessment' %}?emergency={{ emergency.slug }}" 
+           class="btn btn-primary">
+            Начать оценку состояния
+        </a>
+        <a href="{% url 'medical_care:index' %}" class="btn btn-outline-secondary ms-2">
+            ← Назад к списку
+        </a>
     </div>
 </div>
 {% endblock %}
